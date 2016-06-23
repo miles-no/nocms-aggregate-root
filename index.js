@@ -1,3 +1,4 @@
+'use strict';
 const eventListeners = {};
 
 const listenTo = (eventName, func) => {
@@ -18,8 +19,7 @@ const stopListenTo = (eventName, func) => {
   }
 };
 
-const trigger = (eventName) => {
-  const args = Array.prototype.splice.call(arguments, 1);
+const trigger = (eventName, ...args) => {
   if (!eventListeners[eventName]) {
     return;
   }
