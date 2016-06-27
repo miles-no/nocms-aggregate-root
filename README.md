@@ -24,8 +24,8 @@ events.trigger('form_sent', this.props.store);
 ### listenTo, (eventName, function)
 Listen to an event with specified name, and call the function when the event occurs
 
-#### stopListenTo, (eventName, function)
+### stopListenTo, (eventName, function)
 Stop listen to the event
 
-#### trigger, (eventName, args)
+### trigger, (eventName, args)
 Trigger an event with the specified name and calls each listener's function with the supplied args
