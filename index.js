@@ -1,7 +1,6 @@
 'use strict';
 
-const eventListeners = global.NoCMSEvents ? global.NoCMSEvents : {};
-global.NoCMSEvents = eventListeners;
+const eventListeners = {};
 
 const listenTo = (eventName, func) => {
   if (typeof func !== 'function') {
