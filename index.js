@@ -1,5 +1,7 @@
 'use strict';
-const eventListeners = {};
+
+const eventListeners = global.NoCMSEvents ? global.NoCMSEvents : {};
+global.NoCMSEvents = eventListeners;
 
 const listenTo = (eventName, func) => {
   if (typeof func !== 'function') {
@@ -23,7 +25,7 @@ const trigger = (eventName, ...args) => {
   if (!eventListeners[eventName]) {
     return;
   }
-  eventListeners[eventName].forEach(function (f) {
+  eventListeners[eventName].forEach((f) => {
     f.apply(this, args);
   });
 };
