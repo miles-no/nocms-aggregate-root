@@ -2,7 +2,7 @@
   "name": "nocms-events",
   "version": "0.0.1",
   "description": "Global events for NoCMS",
-  "main": "dist/scripts.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "babel ./src --out-dir ./lib --source-maps --presets es2015"
