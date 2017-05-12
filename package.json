@@ -1,6 +1,6 @@
 {
   "name": "nocms-events",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "Global events for NoCMS",
   "main": "lib/index.js",
   "scripts": {
