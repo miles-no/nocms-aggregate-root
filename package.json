@@ -4,7 +4,7 @@
   "description": "Global events for NoCMS",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test/",
     "bump-version": "./node_modules/bump-version/bin/bump patch",
     "prepublish": "babel ./src --out-dir ./lib --source-maps --presets es2015",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
@@ -30,5 +30,5 @@
   "release": {
     "verifyConditions": "condition-circle",
     "debug": false
-  } 
+  }
 }

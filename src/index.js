@@ -29,9 +29,13 @@ const trigger = (eventName, ...args) => {
   });
 };
 
+const clearEvent = (eventName) => {
+  delete eventListeners[eventName];
+};
 
 module.exports = {
   listenTo,
   stopListenTo,
   trigger,
+  clearEvent,
 };
