@@ -3,7 +3,6 @@ machine:
     version: v8.4.0
 dependencies:
   pre:
-    - cat ~/.npmrc
     - echo "registry=https://registry.npmjs.org/" > ~/.npmrc
     - cat ~/.npmrc
 test:
