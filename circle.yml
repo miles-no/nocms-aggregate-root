@@ -2,6 +2,7 @@ machine:
   node:
     version: v8.4.0
 test:
-  override: npm test
+  override:
+    - npm test
   post:
     - DEBUG=condition npm run semantic-release || true
