@@ -4,6 +4,7 @@ machine:
 dependencies:
   pre:
     - echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+    - cat ~/.npmrc
 test:
   override:
     - npm test
