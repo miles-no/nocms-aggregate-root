@@ -1,9 +1,8 @@
-'use strict';
-
 const eventListeners = {};
 
 const listenTo = (eventName, func) => {
   if (typeof func !== 'function') {
+    /* eslint no-console: off */
     console.error(`Listener to ${eventName}  is not a function`);
     return;
   }

@@ -1,8 +1,9 @@
+/* eslint global-require: off */
 const test = require('tape');
+
 let sut;
 
 test('listen to event', (t) => {
-
   t.plan(1);
 
   sut = require('../lib');
@@ -25,7 +26,7 @@ test('stop listen to should not invoke callback afterwards', (t) => {
   sut.trigger('foo');
   sut.stopListenTo('foo', callback);
   sut.trigger('foo');
-})
+});
 
 test('listen to event with data', (t) => {
   t.plan(1);
