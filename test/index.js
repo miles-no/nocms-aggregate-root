@@ -61,8 +61,6 @@ test('clear non existing event should not throw', (t) => {
     sut.stopListenTo('unknow-event');
     t.pass();
   } catch (e) {
-    console.log(e);
-    console.log('----------------------------------------------');
     t.fail('Detatching from an unknow event should not throw.');
   }
 });
