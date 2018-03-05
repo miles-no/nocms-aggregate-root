@@ -28,6 +28,9 @@ const _listenTo = (eventName, func, eventStore) => {
 };
 
 const _stopListenTo = (eventName, func, eventStore) => {
+  if (!eventStore[eventName]) {
+    return;
+  }
   const index = eventStore[eventName].indexOf(func);
   if (index !== -1) {
     eventStore[eventName].splice(index, 1);

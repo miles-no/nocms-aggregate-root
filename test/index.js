@@ -53,3 +53,16 @@ test('clear event should remove all listeners', (t) => {
   sut.trigger('foo');
   t.pass();
 });
+
+test('clear non existing event should not throw', (t) => {
+  t.plan(1);
+  sut = require('../lib');
+  try {
+    sut.stopListenTo('unknow-event');
+    t.pass();
+  } catch (e) {
+    console.log(e);
+    console.log('----------------------------------------------');
+    t.fail('Detatching from an unknow event should not throw.');
+  }
+});
