@@ -9,7 +9,8 @@ const _trigger = (eventName, eventStore, ...args) => {
   if (!eventStore[eventName]) {
     return;
   }
-  eventStore[eventName].forEach((f) => {
+  const subscribers = eventStore[eventName].slice();
+  subscribers.forEach((f) => {
     f.apply(this, args);
   });
 };
