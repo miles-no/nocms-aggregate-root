@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "node test/",
+    "nsp": "nsp check",
     "prepare": "babel ./src --out-dir ./lib --source-maps --presets env",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "eslint": "eslint --ext .js ."
   },
   "repository": {
@@ -16,20 +16,16 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-preset-env": "^1.6.1",
-    "condition-circle": "1.5.0",
     "eslint": "^4.9.0",
     "eslint-config-webteam": "^2.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "semantic-release": "^8.0.0",
+    "nsp": "^3.2.1",
+    "semantic-release": "^15.1.7",
     "tape": "^4.8.0"
   },
   "keywords": [
     "events"
   ],
   "author": "Jørgen Landsnes Johansen",
-  "license": "ISC",
-  "release": {
-    "verifyConditions": "condition-circle",
-    "debug": false
-  }
+  "license": "ISC"
 }
