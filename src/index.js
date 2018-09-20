@@ -1,87 +1,122 @@
-/* eslint no-underscore-dangle: off */
-const eventListeners = {};
+const AggregateRootNotFoundError = require('./errors/AggregateRootNotFoundError');
+const InvalidCommandError = require('./errors/InvalidCommandError');
+const MissingEventHandlerError = require('./errors/MissingEventHandlerError');
+const AggregateHasUndispatchedEventsError = require('./errors/AggregateHasUndispatchedEventsError');
 
-if (!global._nocmsEventListeners) {
-  global._nocmsEventListeners = {};
-}
+let api;
+let store;
+let bus;
+let eventHandlers;
+let commandHandlers;
 
-const _trigger = (eventName, eventStore, ...args) => {
-  if (!eventStore[eventName]) {
-    return;
+const setStore = (storeApi) => {
+  store = storeApi;
+  return api;
+};
+
+const setBus = (busApi) => {
+  bus = busApi;
+  return api;
+};
+
+const setEventHandlers = (handlers) => {
+  eventHandlers = handlers;
+  return api;
+};
+
+const setCommandHandlers = (handlers) => {
+  commandHandlers = handlers;
+  return api;
+};
+
+const publishEvent = async (event) => {
+  if (bus) {
+    try {
+      await bus.publish(event);
+      await store.markEventDispatched(event.aggregateId, event.streamRevision);
+    } catch (err) {
+      // What if store.markEventDispatched fails? Should be ok if events are idempotent
+    }
   }
-  const subscribers = eventStore[eventName].slice();
-  subscribers.forEach((f) => {
-    f.apply(this, args);
-  });
 };
 
-const _listenTo = (eventName, func, eventStore) => {
-  if (typeof func !== 'function') {
-    /* eslint no-console: off */
-    /* eslint no-param-reassign: off  */
-    console.error(`Listener to ${eventName}  is not a function`);
-    return;
+const applyEvent = async (aggregate, event, fromHistory = false) => {
+  const payload = event.payload;
+  if (!eventHandlers[payload.eventType]) {
+    throw new MissingEventHandlerError(payload.eventType, payload);
   }
-  if (!eventStore[eventName]) {
-    eventStore[eventName] = [];
+  const newAggregate = eventHandlers[payload.eventType](aggregate, payload);
+  newAggregate.streamRevision = payload.streamRevision;
+  newAggregate.dispatched = newAggregate.dispatched && event.dispatched;
+  if (!fromHistory) {
+    await store.saveEvent(event);
+    await publishEvent(event);
+  } else if (!event.dispatched) {
+    await publishEvent(event);
   }
-  eventStore[eventName].push(func);
+  return newAggregate;
 };
 
-const _stopListenTo = (eventName, func, eventStore) => {
-  if (!eventStore[eventName]) {
-    return;
+const applyEvents = async (events) => {
+  if (!events) {
+    return null;
   }
-  const index = eventStore[eventName].indexOf(func);
-  if (index !== -1) {
-    eventStore[eventName].splice(index, 1);
+  let aggregate;
+  let isAllDispatched = true;
+  for (let i = 0, l = events.length; i < l; ++i) {
+    if (!aggregate) {
+      aggregate = {};
+    }
+    aggregate = await applyEvent(aggregate, events[i], true); // eslint-disable-line
+    isAllDispatched = isAllDispatched && (events[i].dispatched === true);
   }
+  aggregate.dispatched = isAllDispatched;
+  return aggregate;
 };
 
-const _clearEvent = (eventName, eventStore = eventListeners) => {
-  delete eventStore[eventName];
+const load = async (id) => {
+  const events = await store.getEvents(id);
+  return await applyEvents(events);
 };
 
-const trigger = (eventName, ...args) => {
-  _trigger(eventName, eventListeners, ...args);
+const addCommand = async (id, commandName, payload) => {
+  const command = {
+    id,
+    commandName,
+    payload,
+  };
+  let aggregate;
+
+  try {
+    aggregate = await load(command.id);
+    if (!aggregate.dispatched) {
+      throw new AggregateHasUndispatchedEventsError(command.id);
+    }
+  } catch (error) {
+    if (error instanceof AggregateRootNotFoundError) {
+      if (!payload.isCreate) {
+        throw error;
+      }
+    } else {
+      throw error;
+    }
+  }
+
+  if (!commandHandlers[commandName]) {
+    throw new InvalidCommandError(command.id, commandName);
+  }
+
+  const event = commandHandlers[commandName](aggregate, command);
+  await applyEvent(aggregate, event);
 };
 
-const listenTo = (eventName, func) => {
-  _listenTo(eventName, func, eventListeners);
+api = {
+  addCommand,
+  load,
+  setStore,
+  setBus,
+  setEventHandlers,
+  setCommandHandlers,
 };
 
-const stopListenTo = (eventName, func) => {
-  _stopListenTo(eventName, func, eventListeners);
-};
-
-const clearEvent = (eventName) => {
-  _clearEvent(eventName, eventListeners);
-};
-
-const triggerGlobal = (eventName, ...args) => {
-  _trigger(eventName, global._nocmsEventListeners, ...args);
-};
-
-const listenToGlobal = (eventName, func) => {
-  _listenTo(eventName, func, global._nocmsEventListeners);
-};
-
-const stopListenToGlobal = (eventName, func) => {
-  _stopListenTo(eventName, func, global._nocmsEventListeners);
-};
-
-const clearEventGlobal = (eventName) => {
-  _clearEvent(eventName, global._nocmsEventListeners);
-};
-
-
-module.exports = {
-  listenTo,
-  listenToGlobal,
-  stopListenTo,
-  stopListenToGlobal,
-  trigger,
-  triggerGlobal,
-  clearEvent,
-  clearEventGlobal,
-};
+module.exports = api;

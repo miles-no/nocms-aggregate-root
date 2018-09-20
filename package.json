@@ -1,30 +1,28 @@
 {
-  "name": "nocms-events",
+  "name": "nocms-aggregate-root",
   "version": "0.0.0-semantic-release",
-  "description": "Global events for NoCMS",
-  "main": "lib/index.js",
+  "description": "Aggregate root for event sourcing in node",
+  "main": "src/index.js",
   "scripts": {
-    "test": "node test/",
+    "test": "node_modules/ava/cli.js --tap",
     "nsp": "nsp check",
-    "prepare": "babel ./src --out-dir ./lib --source-maps --presets env",
-    "eslint": "eslint --ext .js ."
+    "lint": "node node_modules/eslint/bin/eslint.js ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/miles-no/nocms-events.git"
+    "url": "https://github.com/miles-no/nocms-aggregate-root.git"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-env": "^1.6.1",
+    "ava": "^1.0.0-beta.7",
     "eslint": "^4.19.1",
-    "eslint-config-webteam": "^2.0.0",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-config-webteam": "^2.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "nsp": "^3.2.1",
-    "semantic-release": "^15.1.7",
-    "tape": "^4.9.0"
+    "semantic-release": "^15.9.15"
   },
   "keywords": [
-    "events"
+    "event sourcing",
+    "aggregate root"
   ],
   "author": "Jørgen Landsnes Johansen",
   "license": "ISC"
