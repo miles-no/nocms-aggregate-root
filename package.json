@@ -18,7 +18,8 @@
     "eslint-config-webteam": "^2.1.0",
     "eslint-plugin-import": "^2.14.0",
     "nsp": "^3.2.1",
-    "semantic-release": "^15.9.15"
+    "semantic-release": "^15.9.16",
+    "@babel/core": "^7.1.0"
   },
   "keywords": [
     "event sourcing",
