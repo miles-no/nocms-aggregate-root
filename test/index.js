@@ -6,8 +6,8 @@
 import test from 'ava';
 
 const sut = require('../src');
-const inmemoryStore = require('./helpers/inmemoryStore');
-const inmemoryBus = require('./helpers/inmemoryBus');
+const inmemoryStore = require('../example/inmemoryStore');
+const inmemoryBus = require('../example/inmemoryBus');
 const AggregateRootNotFoundError = require('../src/errors/AggregateRootNotFoundError');
 const AggregateHasUndispatchedEventsError = require('../src/errors/AggregateHasUndispatchedEventsError');
 const InvalidCommandError = require('../src/errors/InvalidCommandError');

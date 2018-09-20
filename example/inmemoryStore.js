@@ -1,4 +1,4 @@
-const AggregateRootNotFoundError = require('../../src/errors/AggregateRootNotFoundError');
+const AggregateRootNotFoundError = require('../src/errors/AggregateRootNotFoundError');
 
 const store = {};
 
