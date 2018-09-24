@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node_modules/ava/cli.js --tap",
     "nsp": "nsp check",
-    "lint": "node node_modules/eslint/bin/eslint.js ."
+    "lint": "node node_modules/eslint/bin/eslint.js .",
+    "example": "node example/"
   },
   "repository": {
     "type": "git",
