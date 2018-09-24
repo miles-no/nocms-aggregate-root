@@ -14,5 +14,5 @@ customerAggregateRoot
 (async () => {
   await customerAggregateRoot.addCommand('1', 'createCustomer', { name: 'Jørgen', isCreate: true });
   const customer = await customerAggregateRoot.load('1');
-  console.log(customer);
+  console.log(customer); // eslint-disable-line
 })();

@@ -63,7 +63,7 @@ const applyEvents = async (events) => {
   }
   let aggregate;
   let isAllDispatched = true;
-  for (let i = 0, l = events.length; i < l; ++i) {
+  for (let i = 0, l = events.length; i < l; i += 1) {
     if (!aggregate) {
       aggregate = {};
     }
