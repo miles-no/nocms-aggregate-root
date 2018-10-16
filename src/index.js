@@ -119,12 +119,13 @@ api = {
   setCommandHandlers,
 };
 
-errors= {
+const errors = {
   AggregateRootNotFoundError,
   InvalidCommandError,
   MissingEventHandlerError,
   AggregateHasUndispatchedEventsError,
-}
+};
+
 module.exports = {
   api,
   errors,
