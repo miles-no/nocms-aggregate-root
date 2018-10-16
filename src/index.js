@@ -119,4 +119,13 @@ api = {
   setCommandHandlers,
 };
 
-module.exports = api;
+errors= {
+  AggregateRootNotFoundError,
+  InvalidCommandError,
+  MissingEventHandlerError,
+  AggregateHasUndispatchedEventsError,
+}
+module.exports = {
+  api,
+  errors,
+};

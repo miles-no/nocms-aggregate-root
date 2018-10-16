@@ -4,7 +4,7 @@
   "description": "Aggregate root for event sourcing in node",
   "main": "src/index.js",
   "scripts": {
-    "test": "node_modules/ava/cli.js --tap",
+    "test": "node node_modules/ava/cli.js --tap",
     "nsp": "nsp check",
     "eslint": "node node_modules/eslint/bin/eslint.js .",
     "example": "node example/"

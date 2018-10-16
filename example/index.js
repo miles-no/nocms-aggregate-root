@@ -3,7 +3,7 @@ const store = require('./inmemoryStore');
 const commandHandlers = require('./command_handlers');
 const eventHandlers = require('./event_handlers');
 
-const customerAggregateRoot = require('../src');
+const customerAggregateRoot = require('../src').api;
 
 customerAggregateRoot
   .setBus(bus)
